@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Program Library</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f2f5;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .program-name {
+        font-weight: bold;
+        color: #1a73e8;
+        margin-bottom: 10px;
+    }
+    .description {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    .copy-btn {
+        padding: 10px;
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .copy-btn:hover {
+        background: #155ab6;
+    }
+</style>
+</head>
+<body>
+
+<h1>Python Program Library</h1>
+<div class="container" id="program-container">
+    <!-- Cards will be injected here by JavaScript -->
+</div>
+
+<script>
+// List of programs with name, description, and code
+const programs = [
+    {
+        name: "A1: Library Borrow Management",
+        description: "Compute average books, max/min borrowed, zero borrowers, and mode.",
+        code: `# Library Borrow Management System
+members = {"Amit":3,"Riya":5,"Omkar":0,"Nayan":2,"Sana":5,"Tejas":1}
+average_borrow = sum(members.values())/len(members)
+print("Average number of books borrowed:",average_borrow)
+max_borrow = max(members.values())
+min_borrow = min(members.values())
+print("Highest number of books borrowed:",max_borrow)
+print("Lowest number of books borrowed:",min_borrow)
+no_borrow_count = sum(1 for b in members.values() if b==0)
+print("Number of members who borrowed no books:",no_borrow_count)
+from collections import Counter
+mode_borrow = Counter(members.values()).most_common(1)[0][0]
+print("Most frequently borrowed book count (mode):",mode_borrow)`
+    },
+    {
+        name: "A2: Search Algorithms",
+        description: "Linear and Binary search for customer account IDs.",
+        code: `# Linear and Binary Search Example
+def linear_search(arr,key):
+    for i,v in enumerate(arr):
+        if v==key:
+            return i
+    return -1
+
+def binary_search(arr,key):
+    arr.sort()
+    low,high=0,len(arr)-1
+    while low<=high:
+        mid=(low+high)//2
+        if arr[mid]==key:
+            return mid
+        elif arr[mid]<key:
+            low=mid+1
+        else:
+            high=mid-1
+    return -1
+
+customers = [23,45,12,67,34]
+key = 34
+print("Linear Search index:",linear_search(customers,key))
+print("Binary Search index:",binary_search(customers,key))`
+    },
+    {
+        name: "A3: Sort Salaries",
+        description: "Selection sort and Bubble sort for employee salaries.",
+        code: `# Selection Sort
+def selection_sort(arr):
+    for i in range(len(arr)):
+        min_idx=i
+        for j in range(i+1,len(arr)):
+            if arr[j]<arr[min_idx]:
+                min_idx=j
+        arr[i],arr[min_idx]=arr[min_idx],arr[i]
+    return arr
+
+# Bubble Sort
+def bubble_sort(arr):
+    n=len(arr)
+    for i in range(n):
+        for j in range(0,n-i-1):
+            if arr[j]>arr[j+1]:
+                arr[j],arr[j+1]=arr[j+1],arr[j]
+    return arr
+
+salaries=[50000,70000,30000,90000,60000]
+print("Selection Sort:",selection_sort(salaries.copy()))
+print("Bubble Sort:",bubble_sort(salaries.copy()))`
+    },
+    {
+        name: "B1: Undo/Redo System",
+        description: "Real-time undo/redo for a text editor using stack.",
+        code: `undo_stack=[]
+redo_stack=[]
+document=""
+def make_change(new_text):
+    global document
+    undo_stack.append(document)
+    redo_stack.clear()
+    document=new_text
+    print("Change made.")
+def undo():
+    global document
+    if undo_stack:
+        redo_stack.append(document)
+        document=undo_stack.pop()
+        print("Undo performed.")
+    else: print("Nothing to undo.")
+def redo():
+    global document
+    if redo_stack:
+        undo_stack.append(document)
+        document=redo_stack.pop()
+        print("Redo performed.")
+    else: print("Nothing to redo.")
+def display(): print("Current Document:",document)
+make_change("Hello")
+make_change("Hello World")
+display()
+undo()
+display()
+redo()
+display()`
+    },
+    {
+        name: "B2: Event Processing System",
+        description: "Queue-based system to add, process, display, cancel events.",
+        code: `from collections import deque
+event_queue=deque()
+def add_event(event):
+    event_queue.append(event)
+    print(f"Event '{event}' added.")
+def process_event():
+    if event_queue: print("Processing:",event_queue.popleft())
+    else: print("No events.")
+def display_events():
+    print("Pending Events:",list(event_queue))
+def cancel_event(event):
+    try: event_queue.remove(event); print(f"Event '{event}' canceled.")
+    except: print("Event not found.")
+add_event("Login")
+add_event("Upload")
+display_events()
+process_event()
+cancel_event("Upload")
+display_events()`
+    },
+    {
+        name: "B4: Student Record Management",
+        description: "Singly linked list storing student roll no, name, marks; add/delete/update/search/sort.",
+        code: `class Node:
+    def __init__(self,roll_no,name,marks):
+        self.roll_no=roll_no; self.name=name; self.marks=marks; self.next=None
+class StudentLinkedList:
+    def __init__(self): self.head=None
+    def add_student(self,r,n,m):
+        new=Node(r,n,m)
+        if not self.head: self.head=new
+        else: temp=self.head
+            while temp.next: temp=temp.next
+            temp.next=new
+        print("Student added!")
+    def display_students(self):
+        temp=self.head
+        if not temp: print("No records"); return
+        while temp: print(f"Roll:{temp.roll_no}, Name:{temp.name}, Marks:{temp.marks}"); temp=temp.next
+sll=StudentLinkedList()
+sll.add_student(1,"Omkar",85)
+sll.add_student(2,"Nayan",78)
+sll.display_students()`
+    },
+    {
+        name: "C1: Hash Table Chaining",
+        description: "Hash table size 10, division method, collision resolved by chaining.",
+        code: `class HashTable:
+    def __init__(self,size=10): self.size=size; self.table=[[] for _ in range(size)]
+    def hash_function(self,key): return key%self.size
+    def insert(self,key,value):
+        idx=self.hash_function(key)
+        for pair in self.table[idx]:
+            if pair[0]==key: pair[1]=value; return
+        self.table[idx].append([key,value])
+    def search(self,key):
+        idx=self.hash_function(key)
+        for pair in self.table[idx]:
+            if pair[0]==key: return pair[1]
+        return None
+    def delete(self,key):
+        idx=self.hash_function(key)
+        for pair in self.table[idx]:
+            if pair[0]==key: self.table[idx].remove(pair); return
+ht=HashTable()
+ht.insert(10,'A'); ht.insert(20,'B')
+print(ht.search(10))
+ht.delete(10); print(ht.search(10))`
+    },
+    {
+        name: "C2: Hash Table Linear Probing",
+        description: "Hash table size 10, division method, collisions resolved by linear probing.",
+        code: `class LinearProbingHashTable:
+    def __init__(self,size=10): self.size=size; self.table=[None]*size
+    def hash_function(self,key): return key%self.size
+    def insert(self,key):
+        idx=self.hash_function(key)
+        start=idx
+        while self.table[idx] not in (None,"DELETED"):
+            idx=(idx+1)%self.size
+            if idx==start: return
+        self.table[idx]=key
+    def search(self,key):
+        idx=self.hash_function(key)
+        start=idx
+        while self.table[idx] is not None:
+            if self.table[idx]==key: return idx
+            idx=(idx+1)%self.size
+            if idx==start: break
+        return None
+    def delete(self,key):
+        idx=self.search(key)
+        if idx is not None: self.table[idx]="DELETED"
+ht=LinearProbingHashTable()
+ht.insert(10); ht.insert(20)
+print(ht.search(10))
+ht.delete(10); print(ht.search(10))`
+    },
+    {
+        name: "C3: Extendible Hashing",
+        description: "Dynamic hash table expanding buckets when threshold exceeded.",
+        code: `class Bucket:
+    def __init__(self,depth,size): self.local_depth=depth; self.size=size; self.items={}
+    def is_full(self): return len(self.items)>=self.size
+class ExtendibleHashTable:
+    def __init__(self,bucket_size=2): self.global_depth=1; self.bucket_size=bucket_size; self.directory=[Bucket(1,bucket_size) for _ in range(2)]
+    def hash_function(self,key): return key & ((1<<self.global_depth)-1)
+    def insert(self,key,value):
+        idx=self.hash_function(key); b=self.directory[idx]
+        if key in b.items: b.items[key]=value; return
+        if b.is_full(): self.double_directory(); self.split_bucket(idx); self.insert(key,value)
+        else: b.items[key]=value
+    def double_directory(self): self.global_depth+=1; self.directory+=self.directory.copy()
+    def split_bucket(self,idx):
+        old=self.directory[idx]; old.local_depth+=1; new_bucket=Bucket(old.local_depth,self.bucket_size)
+        rehash=list(old.items.items()); old.items.clear()
+        for k,v in rehash:
+            if self.hash_function(k)==idx: old.items[k]=v
+            else: new_bucket.items[k]=v
+        for i in range(len(self.directory)):
+            if self.directory[i]==old and (i & (1<<(old.local_depth-1))): self.directory[i]=new_bucket
+ht=ExtendibleHashTable()
+ht.insert(1,'A'); ht.insert(2,'B'); print(ht.directory[0].items, ht.directory[1].items)`
+    },
+    {
+        name: "D1: Graph BFS & DFS",
+        description: "Traverse city locations using BFS (Adjacency List) and DFS (Adjacency Matrix).",
+        code: `from collections import deque
+locations=['A','B','C','D','E']
+adj_matrix=[[0,1,1,0,0],[1,0,0,1,0],[1,0,0,1,1],[0,1,1,0,1],[0,0,1,1,0]]
+def dfs(start,visited):
+    idx=locations.index(start); print(start,end=" "); visited[idx]=True
+    for i in range(len(locations)):
+        if adj_matrix[idx][i]==1 and not visited[i]: dfs(locations[i],visited)
+visited=[False]*len(locations)
+print("DFS sequence:"); dfs('A',visited)
+adj_list={'A':['B','C'],'B':['A','D'],'C':['A','D','E'],'D':['B','C','E'],'E':['C','D']}
+def bfs(start):
+    visited=set(); queue=deque([start]); visited.add(start)
+    print("\\nBFS sequence:",end=" ")
+    while queue:
+        node=queue.popleft(); print(node,end=" ")
+        for neighbor in adj_list[node]:
+            if neighbor not in visited: visited.add(neighbor); queue.append(neighbor)
+bfs('A')`
+    },
+    {
+        name: "BST Operations",
+        description: "Binary Search Tree with insertion, deletion, search, and inorder display.",
+        code: `class Node:
+    def __init__(self,key): self.key=key; self.left=None; self.right=None
+class BST:
+    def __init__(self): self.root=None
+    def insert(self,key):
+        self.root=self._insert(self.root,key)
+    def _insert(self,root,key):
+        if root is None: return Node(key)
+        if key<root.key: root.left=self._insert(root.left,key)
+        elif key>root.key: root.right=self._insert(root.right,key)
+        return root
+    def search(self,key):
+        return self._search(self.root,key)
+    def _search(self,root,key):
+        if root is None: return None
+        if root.key==key: return root
+        if key<root.key: return self._search(root.left,key)
+        return self._search(root.right,key)
+    def inorder(self):
+        self._inorder(self.root); print()
+    def _inorder(self,root):
+        if root: self._inorder(root.left); print(root.key,end=" "); self._inorder(root.right)
+bst=BST()
+bst.insert(50); bst.insert(30); bst.insert(70)
+bst.inorder(); print(bst.search(70).key)`
+    },
+    {
+        name: "City BST",
+        description: "BST storing city names and populations with add/delete/update/display.",
+        code: `class Node:
+    def __init__(self,city,pop): self.city=city; self.population=pop; self.left=None; self.right=None
+class CityBST:
+    def __init__(self): self.root=None
+    def insert(self,city,pop): self.root=self._insert(self.root,city,pop)
+    def _insert(self,root,city,pop):
+        if root is None: return Node(city,pop)
+        if city<root.city: root.left=self._insert(root.left,city,pop)
+        elif city>root.city: root.right=self._insert(root.right,city,pop)
+        return root
+    def search(self,city):
+        return self._search(self.root,city)
+    def _search(self,root,city):
+        if root is None: return None
+        if city==root.city: return root
+        if city<root.city: return self._search(root.left,city)
+        return self._search(root.right,city)
+    def display_ascending(self): self._inorder(self.root); print()
+    def _inorder(self,root):
+        if root: self._inorder(root.left); print(f"{root.city}:{root.population}",end=" "); self._inorder(root.right)
+bst=CityBST()
+bst.insert("Pune",5000000); bst.insert("Mumbai",12000000)
+bst.insert("Nagpur",3000000)
+bst.display_ascending()
+print(bst.search("Nagpur").population)`
+    }
+];
+
+// Generate cards dynamically
+const container = document.getElementById("program-container");
+programs.forEach(prog=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+        <div class="program-name">${prog.name}</div>
+        <div class="description">${prog.description}</div>
+        <button class="copy-btn">Copy Code</button>
+    `;
+    const btn = card.querySelector(".copy-btn");
+    btn.addEventListener("click",()=>{
+        navigator.clipboard.writeText(prog.code).then(()=>{
+            btn.innerText="Copied!";
+            setTimeout(()=>btn.innerText="Copy Code",1000);
+        });
+    });
+    container.appendChild(card);
+});
+</script>
+
+</body>
+</html>
