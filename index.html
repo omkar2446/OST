@@ -202,26 +202,43 @@ display_events()`
         name: "B4: Student Record Management",
         description: "Singly linked list storing student roll no, name, marks; add/delete/update/search/sort.",
         code: `class Node:
-    def __init__(self,roll_no,name,marks):
-        self.roll_no=roll_no; self.name=name; self.marks=marks; self.next=None
+   class Node:
+    def __init__(self, roll_no, name, marks):
+        self.roll_no = roll_no
+        self.name = name
+        self.marks = marks
+        self.next = None
+
 class StudentLinkedList:
-    def __init__(self): self.head=None
-    def add_student(self,r,n,m):
-        new=Node(r,n,m)
-        if not self.head: self.head=new
-        else: temp=self.head
-            while temp.next: temp=temp.next
-            temp.next=new
+    def __init__(self):
+        self.head = None
+
+    def add_student(self, r, n, m):
+        new = Node(r, n, m)
+        if not self.head:
+            self.head = new
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new
         print("Student added!")
+
     def display_students(self):
-        temp=self.head
-        if not temp: print("No records"); return
-        while temp: print(f"Roll:{temp.roll_no}, Name:{temp.name}, Marks:{temp.marks}"); temp=temp.next
-sll=StudentLinkedList()
-sll.add_student(1,"Omkar",85)
-sll.add_student(2,"Nayan",78)
-sll.display_students()`
-    },
+        temp = self.head
+        if not temp:
+            print("No records")
+            return
+        while temp:
+            print(f"Roll: {temp.roll_no}, Name: {temp.name}, Marks: {temp.marks}")
+            temp = temp.next
+
+# Example usage
+sll = StudentLinkedList()
+sll.add_student(1, "Omkar", 85)
+sll.add_student(2, "Nayan", 78)
+sll.display_students()
+,
     {
         name: "C1: Hash Table Chaining",
         description: "Hash table size 10, division method, collision resolved by chaining.",
@@ -407,3 +424,4 @@ programs.forEach(prog=>{
 
 </body>
 </html>
+
