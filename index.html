@@ -33,7 +33,7 @@
     }
     .card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 25px rgba(26,115,232,0.2);
     }
     .program-name {
         font-weight: bold;
@@ -53,6 +53,8 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background 0.2s;
+        align-self: flex-end;
+        font-weight: 600;
     }
     .copy-btn:hover {
         background: #155ab6;
@@ -202,7 +204,6 @@ display_events()`
         name: "B4: Student Record Management",
         description: "Singly linked list storing student roll no, name, marks; add/delete/update/search/sort.",
         code: `class Node:
-   class Node:
     def __init__(self, roll_no, name, marks):
         self.roll_no = roll_no
         self.name = name
@@ -237,8 +238,8 @@ class StudentLinkedList:
 sll = StudentLinkedList()
 sll.add_student(1, "Omkar", 85)
 sll.add_student(2, "Nayan", 78)
-sll.display_students()
-,
+sll.display_students()`
+    },
     {
         name: "C1: Hash Table Chaining",
         description: "Hash table size 10, division method, collision resolved by chaining.",
@@ -294,32 +295,6 @@ print(ht.search(10))
 ht.delete(10); print(ht.search(10))`
     },
     {
-        name: "C3: Extendible Hashing",
-        description: "Dynamic hash table expanding buckets when threshold exceeded.",
-        code: `class Bucket:
-    def __init__(self,depth,size): self.local_depth=depth; self.size=size; self.items={}
-    def is_full(self): return len(self.items)>=self.size
-class ExtendibleHashTable:
-    def __init__(self,bucket_size=2): self.global_depth=1; self.bucket_size=bucket_size; self.directory=[Bucket(1,bucket_size) for _ in range(2)]
-    def hash_function(self,key): return key & ((1<<self.global_depth)-1)
-    def insert(self,key,value):
-        idx=self.hash_function(key); b=self.directory[idx]
-        if key in b.items: b.items[key]=value; return
-        if b.is_full(): self.double_directory(); self.split_bucket(idx); self.insert(key,value)
-        else: b.items[key]=value
-    def double_directory(self): self.global_depth+=1; self.directory+=self.directory.copy()
-    def split_bucket(self,idx):
-        old=self.directory[idx]; old.local_depth+=1; new_bucket=Bucket(old.local_depth,self.bucket_size)
-        rehash=list(old.items.items()); old.items.clear()
-        for k,v in rehash:
-            if self.hash_function(k)==idx: old.items[k]=v
-            else: new_bucket.items[k]=v
-        for i in range(len(self.directory)):
-            if self.directory[i]==old and (i & (1<<(old.local_depth-1))): self.directory[i]=new_bucket
-ht=ExtendibleHashTable()
-ht.insert(1,'A'); ht.insert(2,'B'); print(ht.directory[0].items, ht.directory[1].items)`
-    },
-    {
         name: "D1: Graph BFS & DFS",
         description: "Traverse city locations using BFS (Adjacency List) and DFS (Adjacency Matrix).",
         code: `from collections import deque
@@ -369,35 +344,6 @@ class BST:
 bst=BST()
 bst.insert(50); bst.insert(30); bst.insert(70)
 bst.inorder(); print(bst.search(70).key)`
-    },
-    {
-        name: "City BST",
-        description: "BST storing city names and populations with add/delete/update/display.",
-        code: `class Node:
-    def __init__(self,city,pop): self.city=city; self.population=pop; self.left=None; self.right=None
-class CityBST:
-    def __init__(self): self.root=None
-    def insert(self,city,pop): self.root=self._insert(self.root,city,pop)
-    def _insert(self,root,city,pop):
-        if root is None: return Node(city,pop)
-        if city<root.city: root.left=self._insert(root.left,city,pop)
-        elif city>root.city: root.right=self._insert(root.right,city,pop)
-        return root
-    def search(self,city):
-        return self._search(self.root,city)
-    def _search(self,root,city):
-        if root is None: return None
-        if city==root.city: return root
-        if city<root.city: return self._search(root.left,city)
-        return self._search(root.right,city)
-    def display_ascending(self): self._inorder(self.root); print()
-    def _inorder(self,root):
-        if root: self._inorder(root.left); print(f"{root.city}:{root.population}",end=" "); self._inorder(root.right)
-bst=CityBST()
-bst.insert("Pune",5000000); bst.insert("Mumbai",12000000)
-bst.insert("Nagpur",3000000)
-bst.display_ascending()
-print(bst.search("Nagpur").population)`
     }
 ];
 
@@ -424,4 +370,3 @@ programs.forEach(prog=>{
 
 </body>
 </html>
-
